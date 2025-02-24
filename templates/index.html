@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html lang ='en'>
+    <head>
+        <title> Food and groceries</title>
+        <meta charset="utf-8">
+        <meta name="Viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+
+    <body>
+
+        <header>
+            <div class ='logo'>
+                <h1>Food and Groceries</h1>
+            </div>
+            <nav class="navbar">
+            <ul>
+                <li><a href='#home'>Home</a></li>
+                <li><a href='#product'>Product</a></li>
+                <li><a href='#contact'>Contact</a></li>
+            </ul>
+            <a href="{{ url_for('login') }}" class="login-icon">
+                <img src="{{ url_for('static', filename='images/login-icon.png') }}" alt="Login">
+            </a>
+            </nav>
+        </header>
+
+        <section id="home" class="hero">
+            <div class="text">
+                <h2>Welcome to Food and groceries</h2>
+                <p>Your all-in-one place for food and Groceries</p>
+            </div>
+            <div class="image">
+                <img src="{{ url_for('static', filename='images/cauliflower.png') }}" class="bounce img1" alt="Food Image">
+                <img src="{{ url_for('static', filename='images/brocolli.png') }}" class="bounce img2" alt="Food Image">
+            </div>
+        </section>
+
+        <div class ='container'>
+            <div class="large-box1">
+                <div class = 'text'>
+                    <h2>Top selling items</h2>
+                </div>
+                <div class="image">
+                    <img src="{{ url_for('static', filename='images/Top selling.png') }}" alt="Top selling items images">
+                </div>
+            </div>
+            <div class="fresh-vegetables">
+                <h2>Fresh Vegetables, Direct from Farmers! </h2>
+                <p>At <span class="highlight">Food and Groceries</span>, we deliver fresh, farm-to-table vegetables straight to your home. Sourced directly from local farmers, our produce is packed with natural flavor and nutrients.</p>
+        <p><strong>No middlemen, no delays—just the freshest vegetables for a healthier you!</strong></p>
+            </div>
+        </div>
+
+        <div id="product" class="product">
+            {% set products = [
+                ('Tomatoes', 'tomatoe.png', 20),
+                ('Watermelon', 'watermelon.png', 50),
+                ('Broccoli', 'brocollis.png', 30),
+                ('Orange', 'orange.png', 25),
+                ('Grapes', 'grapes.png', 40),
+                ('Banana', 'banana.png', 15),
+                ('Cabbage', 'cabbage.png', 35),
+                ('Cauliflower', 'cauliflowers.png', 45),
+                ('Chilli', 'chilli.png', 10)
+            ] %}
+    
+            {% for name, image, price in products %}
+            <div class="box">
+                <h3>{{ name }}</h3>
+                <img src="{{ url_for('static', filename='images/' + image) }}" alt="{{ name }} image">
+    
+                <div class="price">Price: ₹<span id="price-{{ loop.index }}">{{ price }}</span></div>
+    
+                <div class="quantity">
+                    <button onclick="decreaseQuantity({{ loop.index }})">-</button>
+                    <input type="number" id="quantity-{{ loop.index }}" value="1" min="1">
+                    <button onclick="increaseQuantity({{ loop.index }})">+</button>
+                </div>
+    
+                <button class="purchase-btn" onclick="addToCart('{{ name }}', {{ price }}, {{ loop.index }})">Add to Cart</button>
+            </div>
+            {% endfor %}
+        </div>
+    
+        <!-- 🛒 Cart Icon (Moved Outside Product Section) -->
+        <img src="{{ url_for('static', filename='images/cart-icon.png') }}" class="cart-icon" onclick="toggleCart()" alt="Cart Icon">
+    
+        <!-- 🛒 Cart Sidebar (Moved Outside Product Section) -->
+        <div id="cartSidebar" class="cart-sidebar">
+            <button class="close-btn" onclick="toggleCart()">✖</button>
+            <h2>Your Cart</h2>
+            <div id="cartItems">Your cart is empty</div>
+            
+            <button id="checkoutBtn" class="Checkout-btn" onclick="proceedToCheckout()">
+                Proceed to Checkout
+            </button>
+        </div>
+    
+        <!-- ✅ JavaScript -->
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+        <!--<section>
+            <h2>Contact Us</h2>
+            <p>Email: info@foodiesparadise.com</p>
+            <p>Phone: +91 0000000</p>
+        </section>
+        <footer>
+            <p>&copy; 2025 Food and Groceries. All Rights Reserved.</p>
+        </footer> -->
+    </body>
+</html>

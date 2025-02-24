@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>Shopping Cart</h1>
+</header>
+
+<div class="cart-container">
+    {% if cart %}
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+            </tr>
+            {% for item in cart %}
+            <tr>
+                <td>{{ item.product_name }}</td>
+                <td>₹{{ item.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>₹{{ item.price * item.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <h3>Total: ₹{{ total }}</h3>
+        <button onclick="checkout()">Proceed to Checkout</button>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+
+<script>
+function checkout() {
+    fetch('/checkout', { method: 'POST' })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert("Purchase Successful!");
+            window.location.href = '/';
+        } else {
+            alert("Checkout Failed: " + data.message);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+</script>
+
+</body>
+</html>
